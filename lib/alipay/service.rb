@@ -110,5 +110,27 @@ module Alipay
         warn("Ailpay Warn: missing required option: #{name}") unless options.has_key?(name)
       end
     end
+
+
+    CREATE_LOGIN_URL_OPTIONS = %w( return_ url )
+    # 快捷登入url
+    def self.create_login_url(options)
+      options = {
+        'service'        => 'alipay.auth.authorize',
+        'target_service' => 'user.auth.quick.login',
+        '_input_charset' => 'utf-8',
+        'partner'        => Alipay.pid
+      }.merge(Utils.stringify_keys(options))
+
+      check_required_options(options, CREATE_LOGIN_URL_OPTIONS)
+
+      "#{GATEWAY_URL}?#{query_string(options)}"
+    end
+
+
+
+
+
+
   end
 end
